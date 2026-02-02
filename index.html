@@ -284,17 +284,20 @@
         /* Responsive */
         @media (max-width: 768px) {
             h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
+                padding: 0 10px;
+                line-height: 1.3;
             }
             
             .cute-image {
-                width: 250px;
-                height: 250px;
+                width: 200px;
+                height: 200px;
             }
             
             .love-message {
-                font-size: 1.4rem;
+                font-size: 1.2rem;
                 padding: 20px;
+                margin: 30px 20px;
             }
             
             button {
@@ -303,7 +306,93 @@
             }
             
             .success-text {
-                font-size: 2.2rem;
+                font-size: 2rem;
+                padding: 0 15px;
+            }
+            
+            .buttons-container {
+                min-height: 200px;
+                padding: 20px;
+                gap: 20px;
+                max-width: 100%;
+            }
+            
+            .celebration {
+                font-size: 3rem;
+                margin: 20px 0;
+            }
+            
+            .cute-images-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                margin: 30px 10px;
+            }
+            
+            .mini-image {
+                height: 120px;
+            }
+            
+            .no-counter {
+                font-size: 1.1rem;
+                padding: 0 20px;
+                margin: 15px 0;
+            }
+            
+            .container {
+                padding: 20px 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .cute-image {
+                width: 170px;
+                height: 170px;
+                margin: 20px auto;
+            }
+            
+            .love-message {
+                font-size: 1.1rem;
+                padding: 15px;
+                margin: 20px 15px;
+            }
+            
+            button {
+                font-size: 1rem;
+                padding: 12px 25px;
+                white-space: nowrap;
+            }
+            
+            .buttons-container {
+                min-height: 180px;
+                padding: 15px;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            
+            .celebration {
+                font-size: 2.5rem;
+            }
+            
+            .success-text {
+                font-size: 1.6rem;
+                padding: 0 10px;
+            }
+            
+            .cute-images-grid {
+                gap: 10px;
+                margin: 20px 10px;
+            }
+            
+            .mini-image {
+                height: 100px;
+            }
+            
+            .no-counter {
+                font-size: 1rem;
             }
         }
         
@@ -563,6 +652,12 @@
                 moveNoButton();
             });
             
+            // Touch event for mobile
+            noBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                moveNoButton();
+            });
+            
             // Also move on mousemove when mouse is near
             let moveTimeout;
             container.addEventListener('mousemove', (e) => {
@@ -584,6 +679,26 @@
                     moveTimeout = setTimeout(() => {
                         moveNoButton();
                     }, 50);
+                }
+            });
+            
+            // Touch move for mobile
+            container.addEventListener('touchmove', (e) => {
+                if (!isNoButtonMoving) return;
+                
+                const touch = e.touches[0];
+                const noBtnRect = noBtn.getBoundingClientRect();
+                const centerX = noBtnRect.left + noBtnRect.width / 2;
+                const centerY = noBtnRect.top + noBtnRect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(touch.clientX - centerX, 2) +
+                    Math.pow(touch.clientY - centerY, 2)
+                );
+                
+                // If touch is within 100px of the button, move it
+                if (distance < 100) {
+                    moveNoButton();
                 }
             });
             
